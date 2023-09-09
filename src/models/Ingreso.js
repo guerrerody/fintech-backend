@@ -4,7 +4,7 @@ const Categoria_ingreso = require('./Categoria_ingreso');
 const Modalidad_pago = require('./Modalidad_pago');
 const Metodo_pago = require('./Metodo_pago');
 const Impuesto = require('./Impuesto');
-const Usuario = require('./usuario');
+const Usuario = require('./Usuario');
 
 // Creacion del modelo de ingreso
 const Ingreso = db.define('ingreso', {
@@ -31,7 +31,11 @@ const Ingreso = db.define('ingreso', {
 }, {
     underscored: true,
     timestamps: true,
-    paranoid: true
+    paranoid: true,
+
+    createdAt: 'creado_en',
+    updatedAt: 'actualizado_en',
+    deletedAt: 'eliminado_en'
 });
 
 // Relacion con categoria_ingreso
@@ -49,11 +53,7 @@ Ingreso.belongsTo(Metodo_pago,{
 // Relacion con usuario
 Ingreso.belongsTo(Usuario,{
     foreignKey: 'usuario_id',
-    targetId: 'id',
-
-    createdAt: 'creado_en',
-    updatedAt: 'actualizado_en',
-    deletedAt: 'eliminado_en'
+    targetId: 'id'
 });
 
 

@@ -1,13 +1,13 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
 
-const { obtGastos , crearGasto , obtGasto , actGasto, eliGasto } = require('../controllers');
+const { obtIngresos, obtIngreso, crearIngreso, actIngreso, eliIngreso } = require('../controllers');
 const { validarCampos, validarJWT } = require('../middlewares');
-const { existeCategoriaGastoPorId,
-    existeModalidaPagoPorId,
+const { existeModalidaPagoPorId,
     existeMetodoPagoPorId,
-    existeImpuestoPorId, 
-    existeGastoPorId} = require('../helpers/db-validators');
+    existeImpuestoPorId,
+    existeIngresoPorId,
+    existeCategoriaIngresoPorId} = require('../helpers/db-validators');
 
 const router = Router();
 
@@ -15,45 +15,39 @@ const router = Router();
 router.get('/', [
     validarJWT,
     validarCampos
-], obtGastos);
+], obtIngresos);
 
 router.get('/:id', [
     validarJWT,
-    check('id').custom(existeGastoPorId),
+    check('id').custom(existeIngresoPorId),
     validarCampos
-], obtGasto);
+], obtIngreso);
 
 router.post('/', [
     validarJWT,
     check('fecha', 'La fecha es obligatorio').notEmpty(),
     check('fecha', 'La fecha debe cumplir con el formar AAAA-MM-DD').isDate(),
+    check('nombre', 'El nombre es obligatorio!').notEmpty(),
     check('monto', 'El monto es obligatorio!').notEmpty(),
     check('monto', 'El monto es un valor numerico!').isDecimal(),
-    check('nombre', 'El nombre es obligatorio!').notEmpty(),
-    check('categoria_gasto_id', 'La categoria es obligatoria!').notEmpty(),
-    check('categoria_gasto_id', 'La categoria es es un valor entero!').isInt(),
-    check('categoria_gasto_id').custom(existeCategoriaGastoPorId),
-    check('modalidad_pago_id', 'La modalida de pago es obligatoria!').notEmpty(),
-    check('modalidad_pago_id', 'La modalida de pago es un valor entero (id)!').isInt(),
-    check('modalidad_pago_id').custom(existeModalidaPagoPorId),
+    check('categoria_ingreso_id', 'La categoria es obligatoria!').notEmpty(),
+    check('categoria_ingreso_id', 'La categoria es es un valor entero!').isInt(),
+    check('categoria_ingreso_id').custom(existeCategoriaIngresoPorId),
     check('metodo_pago_id', 'El metodo de pago es obligatorio!').notEmpty(),
     check('metodo_pago_id', 'El metodo de pago es un valor entero (id)!').isInt(),
     check('metodo_pago_id').custom(existeMetodoPagoPorId),
-    check('impuesto_id', 'El impuesto es obligatorio!').notEmpty(),
-    check('impuesto_id', 'El  impuesto es un valor entero (id)!').isInt(),
-    check('impuesto_id').custom(existeImpuestoPorId),
     validarCampos
-], crearGasto);
+], crearIngreso);
 
 router.put('/:id', [
     validarJWT,
-    check('id').custom(existeGastoPorId),
+    check('id').custom(existeIngresoPorId),
     check('fecha', 'La fecha debe cumplir con el formato AAAA-MM-DD').isDate().optional(),
     check('monto', 'El monto es obligatorio!').notEmpty().optional(),
     check('monto', 'El monto es un valor numerico!').isDecimal().optional(),
-    check('categoria_gasto_id', 'La categoria es obligatoria!').notEmpty().optional(),
-    check('categoria_gasto_id', 'La categoria es es un valor entero!').isInt().optional(),
-    check('categoria_gasto_id').custom(existeCategoriaGastoPorId).optional(),
+    check('categoria_ingreso_id', 'La categoria es obligatoria!').notEmpty().optional(),
+    check('categoria_ingreso_id', 'La categoria es es un valor entero!').isInt().optional(),
+    check('categoria_ingreso_id').custom(existeCategoriaIngresoPorId).optional(),
     check('modalidad_pago_id', 'La modalida de pago es obligatoria!').notEmpty().optional(),
     check('modalidad_pago_id', 'La modalida de pago es un valor entero (id)!').isInt().optional(),
     check('modalidad_pago_id').custom(existeModalidaPagoPorId).optional(),
@@ -64,13 +58,13 @@ router.put('/:id', [
     check('impuesto_id', 'El  impuesto es un valor entero (id)!').isInt().optional(),
     check('impuesto_id').custom(existeImpuestoPorId).optional(),
     validarCampos
-], actGasto);
+], actIngreso);
 
 router.delete('/:id', [
     validarJWT,
-    check('id').custom(existeGastoPorId),
+    check('id').custom(existeIngresoPorId),
     validarCampos
-], eliGasto);
+], eliIngreso);
 
 
 module.exports = router;

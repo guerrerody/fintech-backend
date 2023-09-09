@@ -19,7 +19,11 @@ class Server {
         // Rutas
         this.paths = {
             auth: '/api/auth',
+            deudas: '/api/deudas',
             gasto: '/api/gasto',
+            ingreso: '/api/ingreso',
+            prestamo: '/api/prestamo',
+            presupuesto: '/api/presupuesto',
             usuario: '/api/usuario'
         }
 
@@ -63,7 +67,11 @@ class Server {
 
     routes(){
         this.app.use( this.paths.auth , require('../routes/auth.route') );
+        this.app.use( this.paths.deudas , require('../routes/deudas.route') );
         this.app.use( this.paths.gasto , require('../routes/gastos.route') );
+        this.app.use( this.paths.ingreso , require('../routes/ingresos.route') );
+        this.app.use( this.paths.prestamo , require('../routes/prestamos.route') );
+        this.app.use( this.paths.presupuesto , require('../routes/presupuesto.route') );
         this.app.use( this.paths.usuario , require('../routes/usuario.route') );
     }
 

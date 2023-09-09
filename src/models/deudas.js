@@ -1,6 +1,7 @@
 const {DataTypes} = require('sequelize');
 const db = require('../database/db-conection');
 const Gasto = require('./Gasto');
+const Usuario = require('./Usuario');
 
 
 const Deudas = db.define('deudas', {
@@ -27,9 +28,15 @@ const Deudas = db.define('deudas', {
     deletedAt: 'eliminado_en'
 });
 
-// Relacion con categoria_gasto
-Deudas.hasOne(Gasto,{
-    foreignKey: 'gasto_credito',
+// Relacion con gasto
+Deudas.belongsTo(Gasto,{
+    foreignKey: 'gasto_id',
+    targetId: 'id'
+});
+
+// Relacion con usuario
+Deudas.belongsTo(Usuario,{
+    foreignKey: 'usuario_id',
     targetId: 'id'
 });
 

@@ -1,12 +1,14 @@
 const { request, response } = require("express");
-const { Gasto } = require('../models');
+const { Gasto, Deudas } = require('../models');
 const { verIdUsuario } = require('../helpers/jwt');
 
 
 // Obtener todos los gastos - retorna: /Total registros /registros paginados
 const obtGastos = async (req = request, res = response) => {
     const { limite = 5, desde = 1 } = req.query;
-    const query = { deleted_at: null };
+
+    usuario_id = await verIdUsuario(req, res);
+    const query = { usuario_id };
 
     try {
         const { count: total, rows: filas } = await Gasto.findAndCountAll({
@@ -56,9 +58,9 @@ const crearGasto = async (req = request, res = response) => {
         metodo_pago_id,
         impuesto_id } = req.body;
 
-        usuario_id = await verIdUsuario(req, res);
+    usuario_id = await verIdUsuario(req, res);
 
-    const gasto = new Gasto({
+    let gasto = new Gasto({
         fecha,
         nombre,
         descripcion,
@@ -71,12 +73,37 @@ const crearGasto = async (req = request, res = response) => {
     });
 
     try {
-        await gasto.save();
+        gasto = await gasto.save();
 
-        res.json({
-            msg: "Gasto creado correctamente!",
-            gasto
-        });
+        if (modalidad_pago_id == 2) {
+            const deuda = new Deudas({
+                fecha,
+                descripcion,
+                gasto_id: gasto.idgasto,
+                usuario_id
+            });
+
+            try {
+                await deuda.save();
+
+                res.json({
+                    msg: "Deuda creado correctamente!",
+                    gasto,
+                    deuda
+                });
+            } catch (error) {
+                console.log(error);
+                res.status(500).json({
+                    msg: "Internal Server Error!",
+                    error
+                });
+            }
+        } else {
+            res.json({
+                msg: "Gasto creado correctamente!",
+                gasto
+            });
+        }
     } catch (error) {
         console.log(error);
         res.status(500).json({
@@ -110,7 +137,8 @@ const actGasto = async (req = request, res = response) => {
             impuesto_id
         }, {
             where: {
-                id: id
+                idgasto: id,
+
             }
         });
 
@@ -133,7 +161,7 @@ const eliGasto = async (req = request, res = response) => {
     try {
         const gasto = await Gasto.destroy({
             where: {
-                id: id
+                idgasto: id
             }
         });
 

@@ -1,5 +1,6 @@
 const {DataTypes} = require('sequelize');
 const db = require('../database/db-conection');
+const Usuario = require('./Usuario');
 
 
 const Presupuesto = db.define('presupuesto', {
@@ -12,7 +13,7 @@ const Presupuesto = db.define('presupuesto', {
         type: DataTypes.DATE,
         allowNull: false
     },
-    fecha_cumplimiento: {
+    fecha_culminacion: {
         type: DataTypes.DATE,
         allowNull: false
     },
@@ -25,8 +26,7 @@ const Presupuesto = db.define('presupuesto', {
         allowNull: false
     },
     descripcion: {
-        type: DataTypes.STRING,
-        allowNull: false
+        type: DataTypes.STRING
     }
 }, {
     underscored: true,
@@ -36,6 +36,12 @@ const Presupuesto = db.define('presupuesto', {
     createdAt: 'creado_en',
     updatedAt: 'actualizado_en',
     deletedAt: 'eliminado_en'
+});
+
+// Relacion con usuario
+Presupuesto.belongsTo(Usuario,{
+    foreignKey: 'usuario_id',
+    targetId: 'id'
 });
 
 module.exports = Presupuesto;

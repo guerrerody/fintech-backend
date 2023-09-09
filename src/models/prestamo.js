@@ -1,6 +1,7 @@
 const {DataTypes} = require('sequelize');
 const db = require('../database/db-conection');
 const Metodo_pago = require('./Metodo_pago');
+const Usuario = require('./Usuario');
 
 
 const Prestamo = db.define('prestamo', {
@@ -38,6 +39,12 @@ const Prestamo = db.define('prestamo', {
 // Relacion con metodo_pago
 Prestamo.belongsTo(Metodo_pago,{
     foreignKey: 'metodo_pago_id',
+    targetId: 'id'
+});
+
+// Relacion con usuario
+Prestamo.belongsTo(Usuario,{
+    foreignKey: 'usuario_id',
     targetId: 'id'
 });
 

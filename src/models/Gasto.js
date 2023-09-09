@@ -4,7 +4,8 @@ const Categoria_gasto = require('./Categoria_gasto');
 const Modalidad_pago = require('./Modalidad_pago');
 const Metodo_pago = require('./Metodo_pago');
 const Impuesto = require('./Impuesto');
-const Usuario = require('./usuario');
+const Usuario = require('./Usuario');
+const Presupuesto = require('./Presupuesto');
 
 // Creacion del modelo
 const Gasto = db.define('gasto', {
