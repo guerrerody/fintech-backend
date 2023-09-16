@@ -27,7 +27,7 @@ router.post('/', [
     check('correo', 'El email no es valido!').isEmail().optional(),
     check('correo').custom(existeUsuarioPorCorreo).optional(),
     check('telefono', 'El numero de telefono debe contener solo caracteres numericos!').isNumeric().optional(),
-    check('telefono', 'El numero de telefono debe contener 10 digitos solamente!').isLength({ min: 10, max: 10 }).optional(),
+    check('telefono', 'El numero de telefono debe contener 10 digitos solamente!').isLength({ min: 11, max: 11 }).optional(),
     check('contrasenna', 'La contraseña es obligatoria').notEmpty(),
     check('contrasenna', 'La contraseña debe contener entre 8 y 16 caracteres!').isLength({ min: 8, max: 16 }),
     validarCampos
