@@ -118,6 +118,7 @@ const actGasto = async (req = request, res = response) => {
     const { id } = req.params;
 
     const { fecha,
+        nombre,
         descripcion,
         monto,
         categoria_gasto_id,
@@ -129,6 +130,7 @@ const actGasto = async (req = request, res = response) => {
 
         const gasto = await Gasto.update({
             fecha,
+            nombre,
             descripcion,
             monto,
             categoria_gasto_id,

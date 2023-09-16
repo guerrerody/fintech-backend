@@ -48,7 +48,7 @@ router.post('/', [
 router.put('/:id', [
     validarJWT,
     check('id').custom(existeGastoPorId),
-    check('fecha', 'La fecha debe cumplir con el formato AAAA-MM-DD').isDate().optional(),
+    check('fecha', 'La fecha debe cumplir con el formato AAAA-MM-DD').isDate(),
     check('monto', 'El monto es obligatorio!').notEmpty().optional(),
     check('monto', 'El monto es un valor numerico!').isDecimal().optional(),
     check('categoria_gasto_id', 'La categoria es obligatoria!').notEmpty().optional(),

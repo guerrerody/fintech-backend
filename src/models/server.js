@@ -21,6 +21,7 @@ class Server {
             auth: '/api/auth',
             deudas: '/api/deudas',
             gasto: '/api/gasto',
+            generales: '/api/generales',
             ingreso: '/api/ingreso',
             prestamo: '/api/prestamo',
             presupuesto: '/api/presupuesto',
@@ -69,6 +70,7 @@ class Server {
         this.app.use( this.paths.auth , require('../routes/auth.route') );
         this.app.use( this.paths.deudas , require('../routes/deudas.route') );
         this.app.use( this.paths.gasto , require('../routes/gastos.route') );
+        this.app.use( this.paths.generales , require('../routes/generales.route') );
         this.app.use( this.paths.ingreso , require('../routes/ingresos.route') );
         this.app.use( this.paths.prestamo , require('../routes/prestamos.route') );
         this.app.use( this.paths.presupuesto , require('../routes/presupuesto.route') );
