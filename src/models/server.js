@@ -41,7 +41,7 @@ class Server {
     async conectarDB(){
         try {
             await db.authenticate();
-            // await db.sync({alter: true});
+            await db.sync({alter: true});
             console.log('Base de datos en linea!');
         } catch (error) {
             console.error('No fue posible conectar con base de datos:', error);
